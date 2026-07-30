@@ -104,6 +104,19 @@ a{color:var(--ink)}
 .btn.red{color:var(--pink);border-color:var(--pink)}
 .donebtn{border:1px solid var(--green);color:var(--green);padding:8px 13px;font-size:13px}
 .donebtn.is{background:var(--green);color:var(--paper);font-weight:700}
+/* minor events: fuel + leg stretches */
+.ev.minor{background:transparent;border:none;padding:3px 0 3px 8px;margin:1px 0}
+.ev.minor::before{width:6px;height:6px;top:9px;left:-19px;border-width:1.5px;border-color:var(--ink2)}
+.ev.minor .tm{font-size:10.5px;color:var(--ink2);font-weight:400;min-width:42px}
+.ev.minor .t{font-size:11.5px;font-weight:400;color:var(--ink2)}
+.ev.minor .pr{font-size:10.5px;color:var(--orange);opacity:.85}
+.ev.minor .ic{font-size:8.5px;border-color:var(--faint);color:var(--ink2);opacity:.8}
+.ev.minor.warned::before{border-color:var(--pink);background:var(--pink)}
+.ev.minor.warned .t{color:var(--pink);font-weight:700}
+.ev.minor.done::before{background:var(--green);border-color:var(--green)}
+.ev.minor.open{background:var(--panel);border:1px solid var(--ink2);padding:9px 10px;margin:4px 0}
+.ev.minor .evsum{margin-left:51px;font-size:11.5px}
+.ev.minor .bstat{margin-left:51px}
 .eform .row{margin:8px 0}
 .eform label{display:block;font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:10px;color:var(--ink2);margin-bottom:3px}
 .half{display:flex;gap:8px}.half>div{flex:1}
@@ -138,7 +151,7 @@ a{color:var(--ink)}
 </nav>
 <script>
 /* ---------- data ---------- */
-const VERSION=5;
+const VERSION=7;
 function ev(time,type,title,o={}){return Object.assign({kind:"ev",id:uid(),time,type,title,price:0,sum:"",loc:"",mapq:"",det:"",warn:"",book:"",done:false,at:""},o)}
 function leg(miles,hours,txt=""){return {kind:"leg",id:uid(),miles,hours,txt}}
 function uid(){return Math.random().toString(36).slice(2,9)}
@@ -154,6 +167,7 @@ function defaultData(){return {v:VERSION,days:[
  ev("11:15","sight","Washington Pass Overlook",{sum:"Liberty Bell views. The North Cascades doubled as Pennsylvania in The Deer Hunter.",mapq:"Washington Pass Overlook"}),
  leg(30,"0.7","to Winthrop"),
  ev("12:15","meal","Anchor lunch — Winthrop",{sum:"Old Schoolhouse Brewery. Double portion → tonight's dinner. Grocery stop for Day 2 breakfast.",price:26,mapq:"Old Schoolhouse Brewery Winthrop WA"}),
+ ev("1:15","fuel","Fuel — Winthrop",{sum:"400-mi tank rule: Seattle→Spokane is 370 mi — this splits it at mile ~200.",price:15}),
  leg(198,"3.2","Winthrop → Omak → US-2 → Spokane"),
  ev("3:00","stretch","Leg stretch — Wilbur/Davenport",{sum:"2-hour rule stop. Gas-station coffee.",price:4}),
  ev("4:45","lodging","Spokane — Choice hotel",{sum:"Deep inventory, ~$90–120. Leftovers dinner. Asleep 9:00.",price:105,book:"soon",mapq:"Quality Inn Spokane WA"}),
@@ -182,7 +196,8 @@ function defaultData(){return {v:VERSION,days:[
  ev("1:00","hike","Many Glacier valley",{at:"https://www.alltrails.com/trail/us/montana/swiftcurrent-lake-nature-trail",sum:"Swiftcurrent Lake shoreline, moose ponds — best walk-up wildlife viewing in the park. Off trails by 4:30.",warn:"Bear spray. 25+ yards from all wildlife.",mapq:"Many Glacier Hotel"}),
  ev("5:00","meal","EARLY DINNER IN PARK — Ptarmigan Dining Room",{sum:"Many Glacier Hotel, lake view — the solo-trip splurge. Fast-casual 'Nell's at Swiftcurrent if there's a wait.",price:38}),
  leg(57,"1.3","Babb → St. Mary → US-89 → MT-49 (daylight only)"),
- ev("7:30","lodging","Mountain Pine Motel, East Glacier Park",{sum:"CALL DIRECTLY TO BOOK — small indie motel, limited rooms. Backups: Whistling Swan; Glacier Park Lodge.",price:140,book:"asap",mapq:"Mountain Pine Motel East Glacier Park MT"})]},
+ ev("7:30","lodging","Mountain Pine Motel, East Glacier Park",{sum:"CALL DIRECTLY TO BOOK — small indie motel, limited rooms. Backups: Whistling Swan; Glacier Park Lodge.",price:140,book:"asap",mapq:"Mountain Pine Motel East Glacier Park MT"}),
+ ev("8:00","fuel","Top up — East Glacier village",{sum:"Half-tank rule starts here. NO gas on Going-to-the-Sun; tomorrow is the emptiest road of the trip.",price:18})]},
 {date:"2026-08-13",brief:{geo:"The Rocky Mountain Front falls away behind you in the mirrors — one of the sharpest mountain-to-plains transitions on the continent — and the Hi-Line rolls out on glaciated prairie. The lonely Sweet Grass Hills float on the northern horizon for an hour.",life:"Pronghorn — the hemisphere's fastest land animal, built to outrun extinct American cheetahs — graze the fence lines. Hawks on every other power pole; prairie dog towns flicker past.",hist:"Jim Hill's Great Northern (1887) strung these towns like beads; the homestead boom filled them and the 1920s drought emptied them. You cross the Blackfeet, Fort Belknap, and Fort Peck nations. Chief Joseph's Nez Perce surrendered at Bear Paw, just south of Chinook, in 1877.",wx:"Hot, dry, windy — and you can watch a thunderstorm live its whole life 50 miles away. Services genuinely 50–80 miles apart."},dow:"THU",n:4,title:"East Glacier → Glasgow (Hi-Line)",tz:"MT",miles:320,hours:"5",items:[
  ev("6:30","note","Depart AT FIRST LIGHT — not before",{sum:"Free-range cattle + peak deer density on the first stretch. The one day the pre-6 rule bends.",warn:"Half-tank refuel rule in force all day. Towns 50–80 mi apart; services close early."}),
  leg(105,"1.8","US-2 E: Browning → Cut Bank → Shelby"),
@@ -200,6 +215,7 @@ function defaultData(){return {v:VERSION,days:[
  ev("9:15","sight","North Unit scenic drive → Oxbow Overlook",{sum:"28 mi RT. The wilder, emptier half — Cannonball Concretions, longhorn herd, river bends. ~2 hrs.",warn:"Bison: stay in the car."}),
  leg(16,"0.3","to Watford City"),
  ev("11:30","meal","Anchor lunch — Watford City",{price:24}),
+ ev("12:15","fuel","Fuel — Watford City",{sum:"Boom town, plenty of stations. Covers both park units through to Dickinson. Glasgow→Circle behind you ran ~110 empty miles.",price:15}),
  leg(60,"1.0","US-85 → I-94 W → Medora"),
  ev("2:00","stamp","STAMP #5 — TR South Unit VC, Medora",{sum:"Typically 8:00–6:00.",book:"walkin",mapq:"Theodore Roosevelt National Park South Unit Visitor Center"}),
  ev("2:15","sight","South Unit scenic loop",{sum:"36 mi: Painted Canyon views, prairie dog towns, wild horses, bison, Skyline Vista. TR ranched here after losing his wife and mother on the same day in 1884.",warn:"Stay in the car near bison."}),
@@ -208,14 +224,15 @@ function defaultData(){return {v:VERSION,days:[
 {date:"2026-08-15",brief:{geo:"Devils Tower is a phonolite intrusion — magma that stalled underground, cooled into massive columns, and was exhumed as the softer red Spearfish shale eroded away. That red bedrock rings the whole Black Hills like a racetrack. Spearfish Canyon's limestone walls are a Paleozoic seafloor.",life:"A prairie dog metropolis sprawls at the Tower's base; wild turkeys work the pine draws. In the canyon: white-throated swifts on the walls and American dippers bobbing in the creek.",hist:"To the Lakota, Kiowa, and some twenty nations this is Bear Lodge — the fluting is a giant bear's claw marks in the sacred stories. Prayer cloths in the trees are active worship, not decoration. Teddy Roosevelt made it the first national monument in 1906; Spielberg made it a landing pad in 1977.",wx:"Upper 80s; afternoon build-ups over the Hills."},dow:"SAT",n:6,title:"Devils Tower → Rapid City",tz:"MT",miles:330,hours:"5.5",items:[
  ev("5:45","note","Depart — I-94 W → US-85 S",{sum:"Deer-heavy first hour: wildlife speed."}),
  leg(160,"2.6","Belfield → Bowman → Belle Fourche → WY-24"),
- ev("8:00","stretch","Bowman — coffee/leg stretch",{price:4}),
+ ev("8:00","fuel","Bowman — FUEL + coffee",{sum:"Bowman → Belle Fourche is ~95 miles with only tiny Buffalo SD between. Fill here, not later.",price:18,warn:"Do not skip — longest gap on US-85."}),
  ev("9:15","stamp","STAMP #6 — Devils Tower VC",{sum:"At the Tower Trail lot. Typically ~9:00–5:00 summer.",book:"walkin",mapq:"Devils Tower Visitor Center"}),
  ev("9:20","hike","Tower Trail + Close Encounters pilgrimage",{at:"https://www.alltrails.com/trail/us/wyoming/devil-s-tower-trail--2",sum:"1.3 mi paved loop. Phonolite columns — magma cooled underground, exposed by erosion. Prayer cloths mark Bear Lodge (Mató Thípila), sacred to 20+ nations — no close-up photos of cloths. The film's climax was shot right here.",mapq:"Devils Tower Tower Trail"}),
  leg(62,"1.1","to Spearfish"),
  ev("12:00","meal","Anchor lunch — Spearfish",{sum:"Killian's or Dough Trader.",price:26}),
  ev("1:15","sight","Spearfish Canyon Scenic Byway",{sum:"Out-and-back ~1.5 hrs: limestone walls, Bridal Veil Falls. Dances with Wolves winter camp was shot up Little Spearfish Canyon.",mapq:"Spearfish Canyon Scenic Byway"}),
  leg(48,"0.8","I-90 E to Rapid City"),
- ev("4:00","lodging","Rapid City — night 1 of 3",{sum:"Check in ONCE for three nights. Grocery restock.",price:120,book:"soon",mapq:"Quality Inn Rapid City SD"})]},
+ ev("4:00","lodging","Rapid City — night 1 of 3",{sum:"Check in ONCE for three nights. Grocery restock.",price:120,book:"soon",mapq:"Quality Inn Rapid City SD"}),
+ ev("6:30","fuel","Fill tank — Rapid City",{sum:"Last fill was Bowman this morning. Tomorrow's Black Hills circuit is 160 mi — start it full.",price:15})]},
 {date:"2026-08-16",brief:{geo:"The Needles are the exposed core of the Black Hills — Harney Peak granite, ~1.7 billion years old, intruded into even older metamorphics; the glittering flakes in the roadcuts are pegmatite mica. The Hills are a geologic bullseye: oldest rock in the center, younger rings outward. Wind Cave's boxwork formed as fin-like calcite veins outlasted the dissolving limestone around them.",life:"Custer's 1,400-head bison herd, pronghorn, bighorn, and the famous begging burros (descendants of pack animals — don't feed them, they're professionals). The cave stays 54°F year-round.",hist:"Custer's 1874 expedition found gold here, and the 1868 Fort Laramie Treaty died with the strike; in 1980 the Supreme Court ruled the taking illegal, and the Lakota have refused the money ever since — it sits accruing interest. Borglum carved presidents from 1927; Ziolkowski answered with Crazy Horse from 1948, still going.",wx:"Pleasant in the pines, hot in the open; cave requires a layer."},dow:"SUN",n:7,title:"Black Hills circuit + Wind Cave",tz:"MT",miles:160,hours:"3.5–4 in hops",items:[
  ev("6:15","note","Depart (later start on purpose)",{sum:"Rushmore's building opens 8:00; drive is 35 min. Walk the Avenue of Flags in morning light first."}),
  leg(24,"0.6","to Mount Rushmore"),
@@ -250,6 +267,7 @@ function defaultData(){return {v:VERSION,days:[
  ev("10:15","meal","Early anchor lunch — Luxury Diner, Cheyenne",{sum:"Classic hole-in-the-wall.",price:24,mapq:"Luxury Diner Cheyenne WY"}),
  leg(120,"2.0","US-287 → Fort Collins → US-34 Big Thompson Canyon"),
  ev("1:30","lodging","Estes Park — Quality Inn",{sum:"BOOK ASAP. 7,522 ft — acclimatization afternoon: Riverwalk stroll, hydrate aggressively, light dinner.",price:190,book:"asap",mapq:"Quality Inn Estes Park CO"}),
+ ev("5:00","fuel","Fill tank — Estes Park",{sum:"No gas inside Rocky Mountain. Tomorrow: park sunrise + South Park drive on this tank.",price:15}),
  ev("7:00","note","Optional: RMNP timed-entry insurance",{sum:"7:00 pm MDT next-day release on Recreation.gov, $2. Plan A stays: enter before 9:00 am, no reservation needed.",price:2,book:"soon"})]},
 {date:"2026-08-19",brief:{geo:"Trail Ridge climbs through three life zones in 45 minutes — montane, subalpine, alpine — ecologically the same as driving to the Arctic Circle. The tundra up top is an ice-age relict; the gnarled krummholz at treeline may be 400 years old at knee height. Then South Park: a 10,000-foot grass sea ringed by ranges.",life:"Elk in Horseshoe Park at dawn (the September rut is warming up), pikas farming hay piles in the talus, marmots sunning, white-tailed ptarmigan doing their invisible-rock act. Tundra plants bloom for six weeks a year; stay on the trail — a bootprint lasts decades.",hist:"The road follows a Ute and Arapaho crossing route ('the Dog's Trail'); CCC crews built the modern version by 1932 — highest continuous paved road in the country. The San Luis Valley ahead holds Colorado's oldest water rights and its oldest town.",wx:"~40°F at the top at dawn, wind chill lower; monsoon cells build by late morning — the noon rule is non-negotiable. Alamosa evening: 70s and calm."},dow:"WED",n:10,title:"Rocky Mountain → Alamosa",tz:"MT",miles:255,hours:"5",items:[
  ev("5:30","note","Enter RMNP — Fall River entrance",{sum:"Well before the 9:00 reservation window. Sunrise ~6:15 in Horseshoe Park — elk in the meadows."}),
@@ -258,13 +276,16 @@ function defaultData(){return {v:VERSION,days:[
  ev("9:00","stamp","STAMP #10 — Alpine VC (or Fall River VC)",{sum:"Alpine typically opens 9:30–10:30; if not open, stamp Fall River VC (~9:00) on the way out.",book:"walkin",mapq:"Alpine Visitor Center Rocky Mountain"}),
  leg(150,"3.0","US-36 → CO-7 → US-285 S through South Park → Poncha Springs"),
  ev("1:00","meal","Anchor lunch — Salida",{sum:"Best food town on today's route.",price:26,mapq:"Salida CO"}),
+ ev("1:45","fuel","Fuel — Salida",{sum:"South Park behind you, San Luis Valley ahead.",price:15}),
  leg(85,"1.5","CO-17 S to Alamosa"),
- ev("4:30","lodging","Alamosa — Choice hotel",{sum:"Rest. Giant-water purchase. Early leftovers dinner. Asleep 8:30 — dawn mission tomorrow.",price:115,book:"soon",mapq:"Comfort Inn Alamosa CO"})]},
+ ev("4:30","lodging","Alamosa — Choice hotel",{sum:"Rest. Giant-water purchase. Early leftovers dinner. Asleep 8:30 — dawn mission tomorrow.",price:115,book:"soon",mapq:"Comfort Inn Alamosa CO"}),
+ ev("6:00","fuel","Fill tank — Alamosa",{sum:"Dunes at dawn, then New Mexico emptiness. Start Day 11 full.",price:15})]},
 {date:"2026-08-20",brief:{geo:"The dunes are the Rio Grande's floodplain sand, blown northeast across the valley for hundreds of thousands of years and trapped in a pocket of the Sangre de Cristos, where opposing storm winds pile it 750 feet high — the reversing winds are why the crests stay sharp. Later, if you take Raton: the Raton-Clayton volcano field, with Capulin's perfect cinder cone (~55,000 years young).",life:"The dunes have their own endemic species — the Great Sand Dunes tiger beetle lives nowhere else on Earth; kangaroo rats never drink water in their lives. Elk and pronghorn on the valley drive south.",hist:"Zebulon Pike stumbled on the dunes in 1807; San Luis (1851) is Colorado's oldest town, heart of the Hispano homeland. And yes — Roswell, 1947: a crashed balloon, a hasty press release, and America's favorite conspiracy was born.",wx:"Sand is perfect at dawn, dangerous by 10 (surface 120°F+). New Mexico afternoon: 95+ with monsoon cells; fuel gaps 70+ miles."},dow:"THU",n:11,title:"Dunes at dawn → Carlsbad NM",tz:"MT",miles:420,hours:"7",items:[
  ev("5:05","note","Depart Alamosa — 35 min to the dunes lot",{sum:"First light on the dunefield ~5:50."}),
  ev("5:45","hike","Great Sand Dunes at dawn",{at:"https://www.alltrails.com/trail/us/colorado/high-dune-trail",sum:"Tallest dunes in North America, pinned against the Sangre de Cristos by opposing winds. Cool sand, raking light, nobody there. This is why the dunes moved to today.",warn:"By mid-morning the sand surface exceeds 120°F.",mapq:"Great Sand Dunes Dunes Parking"}),
  ev("8:30","stamp","STAMP #11 — Great Sand Dunes VC",{sum:"On the way out. Typically opens 8:30–9:00 — if you beat it, the wait is breakfast.",book:"walkin",mapq:"Great Sand Dunes Visitor Center"}),
  ev("9:00","note","ROUTE DECISION (made last night)",{sum:"Direct: US-160 E → I-25 → US-285 → Roswell (~5 hrs). Or Capulin option (+30–45 min): via Raton → STAMP #12 Capulin Volcano (VC ~8:30–4:30, rim drive + 1-mi walk, free with pass)."}),
+ ev("10:30","fuel","Fuel — I-25 corridor (Walsenburg / Raton)",{sum:"Walsenburg on the direct route, Raton on the Capulin option. Makes Vaughn a comfortable fill, not a desperate one — ~300 mi Alamosa→Vaughn incl. the dunes is too far on a 400-mi tank under the half-tank rule.",price:15}),
  leg(180,"3.0","toward Vaughn NM"),
  ev("12:00","fuel","VAUGHN — the key fill-up",{sum:"Fuel-discipline zone: gaps run 70+ mi south of I-25.",price:20,warn:"Do not skip this stop."}),
  leg(95,"1.5","US-285 S to Roswell"),
@@ -401,10 +422,10 @@ function evHTML(e){
         <button class="btn" onclick="event.stopPropagation();startEdit('${e.id}')">Edit</button>
       </div></div>`;
   }
-  return `<div class="ev ${e.done?"done":""} ${e.warn?"warned":""}" onclick="toggleOpen('${e.id}')">
+  const minor=(e.type==="fuel"||e.type==="stretch");
+  return `<div class="ev ${minor?"minor":""} ${open?"open":""} ${e.done?"done":""} ${e.warn?"warned":""}" onclick="toggleOpen('${e.id}')">
     <div class="evtop"><span class="tm">${esc(e.time)}</span><span class="ic">${ICONS[e.type]||"◆"}</span><span class="t">${esc(e.title)}</span><span class="pr">${e.price?"$"+e.price:""}</span></div>
-    ${e.sum&&!open?`<div class="evsum">${esc(e.sum)}</div>`:""}
-    ${open&&e.sum?`<div class="evsum">${esc(e.sum)}</div>`:""}
+    ${e.sum&&(open||!minor)?`<div class="evsum">${esc(e.sum)}</div>`:""}
     ${bs}${x}</div>`;
 }
 /* ---------- edit ---------- */

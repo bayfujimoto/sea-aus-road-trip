@@ -1,5 +1,5 @@
 // Road Atlas offline cache — cache-first, whole app in one shot
-const CACHE = "road-atlas-v6";
+const CACHE = "road-atlas-v9";
 const ASSETS = ["./", "./index.html", "./sw.js"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
